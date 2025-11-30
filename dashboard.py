@@ -22,7 +22,15 @@ from email.mime.multipart import MIMEMultipart
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+try:
+    import requests
+    import smtplib
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    CLOUD_MODE = False
+except ImportError:
+    CLOUD_MODE = True
+    logging.warning("Running in cloud mode - some features disabled")
 # ================== CONFIGURATION ================== #
 class Config:
     FRAUD_THRESHOLD = 0.65
@@ -816,4 +824,5 @@ def main():
             logger.error(f"Update error: {str(e)}")
 
 if __name__ == "__main__":
+
     main()
